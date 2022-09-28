@@ -12,7 +12,7 @@ tscale = dt * N;  % X轴显示的时间长度，单位为秒
 t = 0 : dt : tscale - tscale / N;
 
 subplot(4, 2, 1);
-stem(t .* 1000, x, '.');
+plot(t .* 1000, x);
 title('原语音信号时域图');
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
@@ -36,7 +36,7 @@ x1 = decimate(x, 4);
 t1 = decimate(t, 4);
 fs1 = fs / 4;
 subplot(4, 2, 3);
-stem(t1 .* 1000, x1, '.');
+plot(t1 .* 1000, x1);
 title('过采样语音信号时域图');
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
@@ -58,7 +58,7 @@ x2 = decimate(x, 8);
 t2 = decimate(t, 8);
 fs2 = fs / 8;
 subplot(4, 2, 5);
-stem(t2 .* 1000, x2, '.');
+plot(t2 .* 1000, x2);
 title('临界采样语音信号时域图');
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
@@ -80,7 +80,7 @@ x3 = decimate(x, 10);
 t3 = decimate(t, 10);
 fs3 = fs / 10;
 subplot(4, 2, 7);
-stem(t3 .* 1000, x3, '.');
+plot(t3 .* 1000, x3);
 title('欠采样语音信号时域图');
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
@@ -121,7 +121,7 @@ for t = 0 : length(ta) - 1  % 求过采样后的每个值
 end
 
 subplot(3, 2, 1);
-stem(ta.* 1000, y_recover1, '.');
+plot(ta.* 1000, y_recover1);
 title('过采样重建信号(内插法)');
 axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
@@ -155,7 +155,7 @@ for t = 0 : length(ta) - 1  % 求过采样后的每个值
 end
 
 subplot(3, 2, 3);
-stem(ta.* 1000, y_recover2, '.');
+plot(ta.* 1000, y_recover2);
 title('临界采样重建信号(内插法)');
 axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
@@ -189,7 +189,7 @@ for t = 0 : length(ta) - 1  % 求过采样后的每个值
 end
 
 subplot(3, 2, 5);
-stem(ta.* 1000, y_recover3, '.');
+plot(ta.* 1000, y_recover3);
 title('欠采样重建信号(内插法)');
 axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
@@ -199,7 +199,7 @@ grid on;
 Y2 = fft(y_recover2);
 realy = 2 * abs(Y2(1 : length(y_recover2))) / length(y_recover2);
 realf = (0 : length(y_recover2) - 1) * (fs / length(y_recover2)); 
-subplot(3, 2, 4);
+subplot(3, 2, 6);
 stem(realf, realy, '.');
 title('临界采样语音信号恢复后频谱图');
 axis([0, 8000, 0, 0.04]);
