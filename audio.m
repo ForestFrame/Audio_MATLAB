@@ -4,12 +4,13 @@ format long;
 
 figure;
 % ==========原始信号========== %
+[x, fs] = audioread('./武汉.wav');
+
 N = 14000;  % 整个图由N个样点构成
-tscale = 1;  % X轴显示的时间长度，单位为秒
-dt = tscale / N;  % 每个样点间的时间间隔
+dt = 1 / fs;
+tscale = dt * N;  % X轴显示的时间长度，单位为秒
 t = 0 : dt : tscale - tscale / N;
 
-[x, fs] = audioread('C:\Users\forest\Desktop\科目\数字信号处理\第一次大作业\武汉.wav');
 subplot(4, 2, 1);
 stem(t .* 1000, x, '.');
 title('原语音信号时域图');
@@ -110,7 +111,7 @@ ts = 1 / f1;  % 采样时间间隔
 to = linspace(0, tscale, n_point);
 K = 4;  % 还原后的信号点倍数
 dt = ts / K;  % 还原后的点时间间隔
-ta = 0 : dt : tscale;
+ta = 0 : dt : n_point * ts;
 y_recover1 = zeros(length(ta), 1);  % 恢复信号y，先建立一个0矩阵，从0到1，时间间隔为dt
 
 for t = 0 : length(ta) - 1  % 求过采样后的每个值
@@ -139,40 +140,72 @@ ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
 
 % =====临界采样===== %
-% n_point = 14000 / 8;  % 采样点数
-% ts = 1 / f2;  % 采样时间间隔
-% to = linspace(0, tscale, n_point);
-% K = 8;  % 还原后的信号点倍数
-% dt = ts / K;  % 还原后的点时间间隔
-% ta = 0 : dt : tscale;
-% y_recover2 = zeros(length(ta), 1);  % 恢复信号y，先建立一个0矩阵，从0到1，时间间隔为dt
-% 
-% for t = 0 : length(ta) - 1  % 求过采样后的每个值
-%     for m = 0 : length(to) - 1  % 累加sinc与原函数对应点的积
-%         y_recover2(t + 1) = y_recover2(t + 1) + x2(m + 1) * sinc((t * dt - m * ts) / ts);
-%     end
-% end
-% 
-% subplot(3, 2, 3);
-% stem(ta.* 1000, y_recover2, '.');
-% title('临界采样重建信号(内插法)');
-% axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
-% xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
-% ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
-% grid on;
-% 
-% Y2 = fft(y_recover2);
-% realy = 2 * abs(Y2(1 : length(y_recover2))) / length(y_recover2);
-% realf = (0 : length(y_recover2) - 1) * (fs / length(y_recover2)); 
-% subplot(3, 2, 4);
-% stem(realf, realy, '.');
-% title('临界采样语音信号恢复后频谱图');
-% axis([0, 8000, 0, 0.04]);
-% xlabel('f/Hz', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
-% ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
-% grid on;
+n_point = 14000 / 8;  % 采样点数
+ts = 1 / f2;  % 采样时间间隔
+to = linspace(0, tscale, n_point);
+K = 8;  % 还原后的信号点倍数
+dt = ts / K;  % 还原后的点时间间隔
+ta = 0 : dt : n_point * ts;
+y_recover2 = zeros(length(ta), 1);  % 恢复信号y，先建立一个0矩阵，从0到1，时间间隔为dt
 
+for t = 0 : length(ta) - 1  % 求过采样后的每个值
+    for m = 0 : length(to) - 1  % 累加sinc与原函数对应点的积
+        y_recover2(t + 1) = y_recover2(t + 1) + x2(m + 1) * sinc((t * dt - m * ts) / ts);
+    end
+end
 
+subplot(3, 2, 3);
+stem(ta.* 1000, y_recover2, '.');
+title('临界采样重建信号(内插法)');
+axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
+xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
+ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
+grid on;
+
+Y2 = fft(y_recover2);
+realy = 2 * abs(Y2(1 : length(y_recover2))) / length(y_recover2);
+realf = (0 : length(y_recover2) - 1) * (fs / length(y_recover2)); 
+subplot(3, 2, 4);
+stem(realf, realy, '.');
+title('临界采样语音信号恢复后频谱图');
+axis([0, 8000, 0, 0.04]);
+xlabel('f/Hz', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
+ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
+grid on;
+
+% =====欠采样===== %
+n_point = 14000 / 10;  % 采样点数
+ts = 1 / f3;  % 采样时间间隔
+to = linspace(0, tscale, n_point);
+K = 10;  % 还原后的信号点倍数
+dt = ts / K;  % 还原后的点时间间隔
+ta = 0 : dt : n_point * ts;
+y_recover3 = zeros(length(ta), 1);  % 恢复信号y，先建立一个0矩阵，从0到1，时间间隔为dt
+
+for t = 0 : length(ta) - 1  % 求过采样后的每个值
+    for m = 0 : length(to) - 1  % 累加sinc与原函数对应点的积
+        y_recover3(t + 1) = y_recover3(t + 1) + x3(m + 1) * sinc((t * dt - m * ts) / ts);
+    end
+end
+
+subplot(3, 2, 5);
+stem(ta.* 1000, y_recover3, '.');
+title('欠采样重建信号(内插法)');
+axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
+xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
+ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
+grid on;
+
+Y2 = fft(y_recover2);
+realy = 2 * abs(Y2(1 : length(y_recover2))) / length(y_recover2);
+realf = (0 : length(y_recover2) - 1) * (fs / length(y_recover2)); 
+subplot(3, 2, 4);
+stem(realf, realy, '.');
+title('临界采样语音信号恢复后频谱图');
+axis([0, 8000, 0, 0.04]);
+xlabel('f/Hz', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
+ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
+grid on;
 
 
 
