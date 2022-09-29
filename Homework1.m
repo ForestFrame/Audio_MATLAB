@@ -2,6 +2,7 @@ clear;
 clc;
 format long;
  
+figure;
 % ==========参数========== %
 N = 10000;  % 整个图由N个样点构成
 tscale = 6e-5;  % X轴显示的时间长度，单位为秒
@@ -19,7 +20,7 @@ y2 = A * sin(2 * pi * f2 * t);  % 0.5为振幅。
 y3 = A * sin(2 * pi * f3 * t);  % 0.5为振幅。
  
 % ==========画图========== %
-subplot(3, 4, 1);
+subplot(3, 1, 1);
 scatter(t .* 1000, y1, '.', 'k');  % 乘1000，将s换算成ms。
 title('100kHz正弦信号');
 axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
@@ -27,7 +28,7 @@ xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
 
-subplot(3, 4, 5);
+subplot(3, 1, 2);
 scatter(t .* 1000, y2, '.', 'r');  % 乘1000，将s换算成ms。
 title('250kHz正弦信号');
 axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
@@ -35,7 +36,7 @@ xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
 
-subplot(3, 4, 9);
+subplot(3, 1, 3);
 scatter(t .* 1000, y3, '.', 'b');  % 乘1000，将s换算成ms。
 title('400kHz正弦信号');
 axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
@@ -43,13 +44,14 @@ xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
 
+figure;
 % ==========画采样后的图========== %
 k = 1;
 n_point = (k * tscale) / (1 / 500000);
 
 t = linspace(0, k * tscale, n_point);
 Y1 = A * sin(2 * pi * f1 * t);  % 0.5为振幅。
-subplot(3, 4, 2);
+subplot(3, 2, 1);
 stem(t .* 1000, Y1, '.');  % 乘1000，将s换算成ms。
 title('500kHz采样信号');
 axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
@@ -59,7 +61,7 @@ grid on;
 
 t = linspace(0, k * tscale, n_point);
 Y2 = A * sin(2 * pi * f2 * t);  % 0.5为振幅。
-subplot(3, 4, 6);
+subplot(3, 2, 3);
 stem(t .* 1000, Y2, '.');  % 乘1000，将s换算成ms。
 title('500kHz采样信号');
 axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
@@ -69,7 +71,7 @@ grid on;
 
 t = linspace(0, k * tscale, n_point);
 Y3 = A * sin(2 * pi * f3 * t);  % 0.5为振幅。
-subplot(3, 4, 10);
+subplot(3, 2, 5);
 stem(t .* 1000, Y3, '.');  % 乘1000，将s换算成ms。
 title('500kHz采样信号');
 axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
@@ -81,7 +83,7 @@ grid on;
 fs = 500000;
 
 yf1 = fft(Y1);
-subplot(3, 4, 3);
+subplot(3, 2, 2);
 realy = 2 * abs(yf1(1 : n_point)) / n_point;
 realf = (0 : n_point - 1) * (fs / n_point);   
 stem(realf, realy, '.');
@@ -92,7 +94,7 @@ ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
 
 yf2 = fft(Y2);
-subplot(3, 4, 7);
+subplot(3, 2, 4);
 realy = 2 * abs(yf2(1 : n_point)) / n_point;  % 频率为250kHz时幅度大于0.5V。
 realf = (0 : n_point - 1) * (fs / n_point);  
 stem(realf, realy, '.');
@@ -103,7 +105,7 @@ ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
 
 yf3 = fft(Y3);
-subplot(3, 4, 11);
+subplot(3, 2, 6);
 realy = 2 * abs(yf3(1 : n_point)) / n_point;
 realf = (0 : n_point - 1) * (fs / n_point);  
 stem(realf, realy, '.');
@@ -113,6 +115,7 @@ xlabel('f/Hz', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
 
+figure;
 % ==========恢复波形========== %
 %原理(内插法): y(t)=Σx(n)*sinc((t-nTs)/Ts)
 n_point = (k * tscale) / (1 / 500000);  % 采样点数
@@ -122,6 +125,7 @@ K = 30;  % 还原后的信号点倍数
 dt = ts / K;  % 还原后的点时间间隔
 ta = 0 : dt : n_point * ts;
 
+figure;
 % =====信号1===== %
 y_recover1 = zeros(length(ta), 1);  % 恢复信号y，先建立一个0矩阵，从0到1，时间间隔为dt
 for t = 0 : length(ta) - 1  % 求过采样后的每个值
@@ -130,9 +134,9 @@ for t = 0 : length(ta) - 1  % 求过采样后的每个值
     end
 end
 
-subplot(3, 4, 4);
+subplot(3, 1, 1);
 scatter(ta.* 1000, y_recover1, '.');
-title('重建信号(内插法)');
+title('100kHz重建信号(内插法)');
 axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
@@ -146,9 +150,9 @@ for t = 0 : length(ta) - 1  % 求过采样后的每个值
     end
 end
 
-subplot(3, 4, 8);
+subplot(3, 1, 2);
 scatter(ta.* 1000, y_recover2, '.');
-title('重建信号(内插法)');
+title('250kHz重建信号(内插法)');
 axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
@@ -162,9 +166,9 @@ for t = 0 : length(ta) - 1  % 求过采样后的每个值
     end
 end
 
-subplot(3, 4, 12);
+subplot(3, 1, 3);
 scatter(ta.* 1000, y_recover3, '.');
-title('重建信号(内插法)');
+title('500kHz重建信号(内插法)');
 axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
