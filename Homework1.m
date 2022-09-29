@@ -115,7 +115,6 @@ xlabel('f/Hz', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
 
-figure;
 % ==========恢复波形========== %
 %原理(内插法): y(t)=Σx(n)*sinc((t-nTs)/Ts)
 n_point = (k * tscale) / (1 / 500000);  % 采样点数
