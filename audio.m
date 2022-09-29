@@ -11,7 +11,7 @@ dt = 1 / fs;
 tscale = dt * N;  % X轴显示的时间长度，单位为秒
 t = 0 : dt : tscale - tscale / N;
 
-subplot(4, 2, 1);
+subplot(1, 2, 1);
 plot(t .* 1000, x);
 title('原语音信号时域图');
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
@@ -21,7 +21,7 @@ grid on;
 y = fft(x);
 realy = 2 * abs(y(1 : length(x))) / length(x);
 realf = (0 : length(x) - 1) * (fs / length(x)); 
-subplot(4, 2, 2);
+subplot(1, 2, 2);
 stem(realf, realy, '.');
 title('原语音信号频谱图');
 axis([0, 8000, 0, 0.04]);
@@ -29,6 +29,7 @@ xlabel('f/Hz', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
 
+figure;
 % ==========减少采样率后的信号========== %
 % 人的语音信号频率在0到600Hz之间，从原信号频谱可以看出信号能量在100到500Hz之间，因此以下取采样率为2000Hz为过采样，1000Hz为临界采样，800Hz为欠采样。
 % =====过采样===== %
