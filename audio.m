@@ -11,8 +11,8 @@ dt = 1 / fs;
 tscale = dt * N;  % X轴显示的时间长度，单位为秒
 t = 0 : dt : tscale - tscale / N;
 
-% subplot(1, 2, 1);
-% plot(t .* 1000, x);
+subplot(1, 2, 1);
+plot(t .* 1000, x);
 title('原语音信号时域图');
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
@@ -21,6 +21,7 @@ grid on;
 y = fft(x);
 realy = 2 * abs(y(1 : length(x))) / length(x);
 realf = (0 : length(x) - 1) * (fs / length(x)); 
+subplot(1, 2, 2);
 stem(realf, realy, '.');
 title('原语音信号频谱图');
 axis([0, 1000, 0, 0.04]);
