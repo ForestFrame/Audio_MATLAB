@@ -162,6 +162,7 @@ axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
+audiowrite
 
 Y2 = fft(y_recover2);
 realy = 2 * abs(Y2(1 : length(y_recover2))) / length(y_recover2);
