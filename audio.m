@@ -4,7 +4,7 @@ format long;
 
 figure;
 % ==========原始信号========== %
-[x, fs] = audioread('./武汉.wav');
+[x, fs] = audioread('./Audio/武汉.wav');
 
 N = 14000;  % 整个图由N个样点构成
 dt = 1 / fs;
@@ -128,8 +128,7 @@ axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
-filename = '过采样.wav';
-audiowrite(filename, y_recover1, 8000);
+audiowrite('./Audio/过采样.wav', y_recover1, 8000);
 
 Y1 = fft(y_recover1);
 realy = 2 * abs(Y1(1 : length(y_recover1))) / length(y_recover1);
@@ -164,8 +163,7 @@ axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
-filename = '临界采样.wav';
-audiowrite(filename, y_recover2, 8000);
+audiowrite('./Audio/临界采样.wav', y_recover2, 8000);
 
 Y2 = fft(y_recover2);
 realy = 2 * abs(Y2(1 : length(y_recover2))) / length(y_recover2);
@@ -200,8 +198,7 @@ axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
-filename = '欠采样.wav';
-audiowrite(filename, y_recover3, 8000);
+audiowrite('./Audio/欠采样.wav', y_recover3, 8000);
 
 Y2 = fft(y_recover2);
 realy = 2 * abs(Y2(1 : length(y_recover2))) / length(y_recover2);
