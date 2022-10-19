@@ -54,7 +54,7 @@ xlabel('f/Hz', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
 
-% ==========利用差分方程进行滤波========== %
+% ==========MATLAB工具箱生成的滤波器========== %
 H = my_filter_code1;
 x_filtered = filter(H, x1);
 
