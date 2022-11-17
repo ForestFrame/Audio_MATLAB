@@ -39,7 +39,7 @@ t3 = 0 : dt3 : tscale3 - tscale3 / N3;
 
 subplot(1, 2, 1);
 plot(t3 .* 1000, x3);
-title('小提琴信号时域图');
+title('噪声信号时域图');
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
@@ -49,14 +49,14 @@ realy = 2 * abs(y3(1 : length(x3))) / length(x3);
 realf = (0 : length(x3) - 1) * (fs3 / length(x3)); 
 subplot(1, 2, 2);
 stem(realf, realy, '.');
-title('小提琴信号频谱图');
+title('噪声信号频谱图');
 axis([0, 4000, 0, 0.04]);
 xlabel('f/Hz', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
 
 figure;
-% -------------------- %
+% ==========小提琴混杂噪声信号========== %
 [x2, fs2] = audioread('./Audio/小提琴混杂声音_缩混.wav');
 
 N2 = length(x2);  % 整个图由N2个样点构成
@@ -106,6 +106,7 @@ ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
 
 audiowrite('./Audio/小提琴去噪.wav', x_filtered, 8000);
+
 
 
 
