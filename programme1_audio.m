@@ -3,7 +3,7 @@ clc;
 format long;
 
 % ==========原始信号========== %
-[x, fs] = audioread('./Audio/小提琴混杂声音_缩混.wav');
+[x, fs] = audioread('./实验一语音信号/武汉.wav');
 
 N = length(x);  % 整个图由N个样点构成
 dt = 1 / fs;
@@ -32,9 +32,9 @@ figure;
 % ==========减少采样率后的信号========== %
 % 人的语音信号频率在0到600Hz之间，从原信号频谱可以看出信号能量在100到500Hz之间，因此以下取采样率为2000Hz为过采样，1000Hz为临界采样，800Hz为欠采样。
 % =====过采样===== %
-x1 = decimate(x, 2);
-t1 = decimate(t, 2);
-fs1 = fs / 2;
+x1 = decimate(x, 4);
+t1 = decimate(t, 4);
+fs1 = fs / 4;
 subplot(3, 2, 1);
 plot(t1 .* 1000, x1);
 title('过采样语音信号时域图');
@@ -54,9 +54,9 @@ ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
 
 % =====临界采样===== %
-x2 = decimate(x, 4);
-t2 = decimate(t, 4);
-fs2 = fs / 4;
+x2 = decimate(x, 8);
+t2 = decimate(t, 8);
+fs2 = fs / 8;
 subplot(3, 2, 3);
 plot(t2 .* 1000, x2);
 title('临界采样语音信号时域图');
@@ -76,9 +76,9 @@ ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
 
 % =====欠采样===== %
-x3 = decimate(x, 8);
-t3 = decimate(t, 8);
-fs3 = fs / 8;
+x3 = decimate(x, 10);
+t3 = decimate(t, 10);
+fs3 = fs / 10;
 subplot(3, 2, 5);
 plot(t3 .* 1000, x3);
 title('欠采样语音信号时域图');
@@ -92,7 +92,7 @@ realf = (0 : length(x3) - 1) * (fs3 / length(x3));
 subplot(3, 2, 6);
 stem(realf, realy, '.');
 title('欠采样语音信号频谱图');
-axis([0, 500, 0, 0.04]);
+axis([0, 800, 0, 0.04]);
 xlabel('f/Hz', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
@@ -127,7 +127,7 @@ axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
-audiowrite('./Audio/过采样.wav', y_recover1, 8000);
+audiowrite('./实验一语音信号/过采样恢复信号.wav', y_recover1, 8000);
 
 Y1 = fft(y_recover1);
 realy = 2 * abs(Y1(1 : length(y_recover1))) / length(y_recover1);
@@ -162,7 +162,7 @@ axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
-audiowrite('./Audio/临界采样.wav', y_recover2, 8000);
+audiowrite('./实验一语音信号/临界采样恢复信号.wav', y_recover2, 8000);
 
 Y2 = fft(y_recover2);
 realy = 2 * abs(Y2(1 : length(y_recover2))) / length(y_recover2);
@@ -197,7 +197,7 @@ axis([-inf, +inf, -1, +1]);  % 调节坐标显示范围。
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
-audiowrite('./Audio/欠采样.wav', y_recover3, 8000);
+audiowrite('./实验一语音信号/欠采样恢复信号.wav', y_recover3, 8000);
 
 Y2 = fft(y_recover2);
 realy = 2 * abs(Y2(1 : length(y_recover2))) / length(y_recover2);

@@ -1,4 +1,4 @@
-function Hd = my_filter_code2
+function Hd = Filter_Design_code2
 %MY_FILTER_CODE2 Returns a discrete-time filter object.
 
 % MATLAB Code

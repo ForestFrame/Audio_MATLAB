@@ -4,7 +4,7 @@ format long;
 close all;
 
 % ==========原始信号========== %
-[x, fs] = audioread('./Audio/小提琴.wav');
+[x, fs] = audioread('./Audio/实验三语音信号/小提琴.wav');
 x = x(:, 1);
 x = x';
 
@@ -35,7 +35,7 @@ grid on;
 
 figure;
 % ==========小提琴混杂噪声信号========== %
-[Xn, fs1] = audioread('./Audio/小提琴混杂声音_缩混.wav');
+[Xn, fs1] = audioread('./Audio/实验三语音信号/小提琴混杂声音_缩混.wav');
 Xn = Xn(:, 1);
 Xn = Xn';
 
@@ -89,7 +89,7 @@ title('快速卷积滤波后信号时域图');
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
-audiowrite('./Audio/快速卷积滤波后信号.wav', y1n, 8000);
+audiowrite('./Audio/实验三语音信号/快速卷积滤波后信号.wav', y1n, 8000);
 
 Y2 = fft(y1n);
 realy = 2 * abs(Y2(1 : length(y1n))) / length(y1n);
@@ -116,7 +116,7 @@ title('线性卷积滤波后信号时域图');
 xlabel('t/ms', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 ylabel('电压/V', 'FontName', '宋体', 'FontWeight', 'normal', 'FontSize', 14);
 grid on;
-audiowrite('./Audio/线性卷积滤波后信号.wav', y2n, 8000);
+audiowrite('./Audio/实验三语音信号/线性卷积滤波后信号.wav', y2n, 8000);
 
 Y3 = fft(y2n);
 realy = 2 * abs(Y3(1 : length(y2n))) / length(y2n);
